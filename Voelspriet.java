@@ -1,4 +1,5 @@
-public class Voelspriet(
+package boebot;
+public class Voelspriet{
  public Voelspriet(){
 
  }
