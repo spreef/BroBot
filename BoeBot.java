@@ -10,7 +10,7 @@ public class BoeBot{
     motor = new MotorAansturing();
     botsingdetectie = new Botsingdetectie();
     fysiekeindicator = new FysiekeIndicator();
-    motor.setSnelheid(100);
+    motor.setSnelheid(50);
     motor.setRichting(true);
     motor.start();
 

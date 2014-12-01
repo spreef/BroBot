@@ -26,8 +26,7 @@ public class MotorAansturing{
  }
 
  public void start(){
-    int maxSnelheid = snelheidL;
-    System.out.println(maxSnelheid);
+    int maxSnelheid = snelheidL;   
     for (int i=0; i<=maxSnelheid; i = i + 10)  {
              setSnelheid(i);
              rijden();

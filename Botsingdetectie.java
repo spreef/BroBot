@@ -14,6 +14,8 @@ public class Botsingdetectie{
 
     IrDetectL = irL.detect();
     IrDetectR = irR.detect();
+    System.out.println(IrDetectL);
+    System.out.println(IrDetectR);
     if(IrDetectL || IrDetectR){
         return true;
 

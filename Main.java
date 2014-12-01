@@ -6,7 +6,6 @@ package boebot;
 import stamp.core.*;
 public class Main{
   public static void main(){
-    MotorAansturing motor = new MotorAansturing();
+    BoeBot bot = new BoeBot();
   }
 }
-
