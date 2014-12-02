@@ -25,7 +25,7 @@ public class IrDetectie{
         irZender.stop();
         CPU.delay (20);
     }
-    CPU.writePin(pinSend, false);
+    CPU.writePin(pinSend, false);  
     return  !irDetect;
  }
 

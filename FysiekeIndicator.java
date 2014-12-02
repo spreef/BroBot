@@ -6,6 +6,7 @@ public class FysiekeIndicator{
    public FysiekeIndicator(){
       led1 = new Led(1);
       led2 = new Led(10);
+     // speaker = new Speaker(10);
    }
    public void setLed1(boolean state){
      led1.setState(state);
