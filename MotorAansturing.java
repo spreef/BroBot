@@ -47,7 +47,7 @@ public class MotorAansturing{
      motorL.update(173, 2304);     // motoren op de rem zetten
     motorR.update(173, 2304);
   }
- private void rijden()
+ public void rijden()
     {
        int motorLWaarde =0;
        int motorRWaarde =0;
