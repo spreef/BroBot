@@ -53,7 +53,20 @@ public class BoeBot{
            motor.setRichting(true);
            motor.start();
        }
-        CPU.delay(1000);
+        int getal = afir.detect(4);
+        if(getal == 21)
+        {
+        afir.setStatus(!afir.getStatus());
+        }
+        if(afir.getStatus())
+        {
+        if(getal != -1){
+        afir.verwerkSignaal(getal);
+        }
+        else
+        {
+          //some other code
+        }
 
     }
  }
