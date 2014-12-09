@@ -24,6 +24,9 @@ public class MotorAansturing{
  public void setRichting(boolean r){
     richting = r;
  }
+  public int getSnelheid(){
+    return snelheidL;
+ }
 
  public void start(){
     int maxSnelheid = snelheidL;   
