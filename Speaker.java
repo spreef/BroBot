@@ -20,19 +20,4 @@ public class Speaker
       speaker.freqout((frequency / 10), 1);
     }
   }
-
-  public static void main()
-  {
-    Speaker test = new Speaker(3);
-
-    test.playSound(1000, 100);
-    test.playSound(7000, 200);
-    test.playSound(9000, 100);
-    test.playSound(1000, 100);
-    test.playSound(10000, 200);
-    test.playSound(3000, 100);
-    test.playSound(20000, 100);
-    test.playSound(15000, 200);
-    test.playSound(12000, 100);
-  }
 }
