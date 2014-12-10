@@ -7,7 +7,6 @@ public class Routeplanner
    private int maxy;
    private int ex;
    private int ey;
-   public String coordinaten;
    public Routeplanner(int rotation, int maxx, int maxy)
    {
        this.rotation = rotation;
@@ -53,12 +52,11 @@ public class Routeplanner
            x --;
        }
    }
-   public String geefCoordinaten()
+   public void geefCoordinaten()
    {
-       coordinaten = "(" + x + "," + y + ")";
-       return coordinaten;
+       System.out.print("(" + x + "," + y + ")");
    }
-   public String gaNaarPunt(int eindx, int eindy)
+   public void gaNaarPunt(int eindx, int eindy)
    {
        if(eindx <= maxx && eindy <= maxy && eindx >= 0 && eindy >= 0)
        {
@@ -72,12 +70,12 @@ public class Routeplanner
                if(rotation == 90)
                {
                    vooruit();
-                   System.out.println("vooruit");
+                   System.out.print("vooruit");
                }
                else
                {
                    turnleft();
-                   System.out.println("turnleft");
+                   System.out.print("turnleft");
                }
            }
            else
@@ -87,12 +85,12 @@ public class Routeplanner
                    if(rotation == 270)
                    {
                        vooruit();
-                       System.out.println("vooruit");
+                       System.out.print("vooruit");
                    }
                    else
                    {
                        turnleft();
-                       System.out.println("turnleft");
+                       System.out.print("turnleft");
                    }
                }
            }
@@ -104,12 +102,12 @@ public class Routeplanner
                if(rotation == 0)
                {
                    vooruit();
-                   System.out.println("vooruit");
+                   System.out.print("vooruit");
                }
                else
                {
                    turnright();
-                   System.out.println("turnright");
+                   System.out.print("turnright");
                }
            }
            else
@@ -119,16 +117,16 @@ public class Routeplanner
                    if(rotation == 180)
                    {
                        vooruit();
-                       System.out.println("vooruit");
+                       System.out.print("vooruit");
                    }
                    else
                    {
                        turnright();
-                       System.out.println("turnright");
+                       System.out.print("turnright");
                    }
                }
            }
        }
-       return "bestemming bereikt " + geefCoordinaten();
+       System.out.print("bestemming bereikt " + " (" + x + "," + y + ")");
    }
 }
