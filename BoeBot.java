@@ -18,6 +18,8 @@ public class BoeBot{
                 botsingdetectie = new Botsingdetectie();
                 fysiekeindicator = new FysiekeIndicator();
                 afir = new AfstandbedieningIr(motor);
+                aansturing = new Aansturing(5,4);
+                lijnvolger = new Lijnvolger();
 
                 motor.setSnelheid(100);
                 motor.setRichting(true);
