@@ -19,23 +19,23 @@ public class Lijnvolger
     public int readSensor()
     {
       int waarde = -1;
-           if(IrL1.readSensorLijnvolger() && IrL2.readSensorLijnvolger() && IrL3.readSensorLijnvolger()){
+           if(IrMidden.readSensorLijnvolger() && IrRechts.readSensorLijnvolger() && IrLinks.readSensorLijnvolger()){
             waarde = 4;
       } else
-           if(IrL1.readSensorLijnvolger()){
+           if(IrMidden.readSensorLijnvolger()){
            waarde = 0;
            }
 
-      else if(IrL2.readSensorLijnvolger()){
+      else if(IrRechts.readSensorLijnvolger()){
            waarde = 1;
            }
 
-      else if(IrL3.readSensorLijnvolger()){
+      else if(IrLinks.readSensorLijnvolger()){
            waarde = 2;
            }
       else{
            waarde = 3;
            }
       return waarde;
-
+     }
 }
