@@ -7,11 +7,12 @@ public class Routeplanner
    private int maxy;
    private int ex;
    private int ey;
-   public Routeplanner(int rotation, int maxx, int maxy)
+   public String coordinaten;
+   public Routeplanner(int maxx, int maxy)
    {
-       this.rotation = rotation;
        this.maxx = maxx;
        this.maxy = maxy;
+       rotation = 0;
        x = 0;
        y = 0;
        ex = 0;
@@ -33,6 +34,18 @@ public class Routeplanner
            rotation = 0;
        }
    }
+   public void keren()
+   {
+       rotation = rotation + 180;
+       if (rotation == 360)
+       {
+           rotation = 0;
+       }
+       if(rotation == 450)
+       {
+           rotation = 90;
+       }
+   }
    public void vooruit()
    {
        if (rotation == 0 && y < maxy)
@@ -52,11 +65,12 @@ public class Routeplanner
            x --;
        }
    }
-   public void geefCoordinaten()
+   public String geefCoordinaten()
    {
-       System.out.print("(" + x + "," + y + ")");
+       coordinaten = "(" + x + "," + y + ")";
+       return coordinaten;
    }
-   public void gaNaarPunt(int eindx, int eindy)
+   public String gaNaarPunt(int eindx, int eindy)
    {
        if(eindx <= maxx && eindy <= maxy && eindx >= 0 && eindy >= 0)
        {
@@ -70,12 +84,12 @@ public class Routeplanner
                if(rotation == 90)
                {
                    vooruit();
-                   System.out.print("vooruit");
+                   System.out.println("vooruit");
                }
                else
                {
                    turnleft();
-                   System.out.print("turnleft");
+                   System.out.println("turnleft");
                }
            }
            else
@@ -85,12 +99,12 @@ public class Routeplanner
                    if(rotation == 270)
                    {
                        vooruit();
-                       System.out.print("vooruit");
+                       System.out.println("vooruit");
                    }
                    else
                    {
                        turnleft();
-                       System.out.print("turnleft");
+                       System.out.println("turnleft");
                    }
                }
            }
@@ -102,12 +116,12 @@ public class Routeplanner
                if(rotation == 0)
                {
                    vooruit();
-                   System.out.print("vooruit");
+                   System.out.println("vooruit");
                }
                else
                {
                    turnright();
-                   System.out.print("turnright");
+                   System.out.println("turnright");
                }
            }
            else
@@ -117,16 +131,173 @@ public class Routeplanner
                    if(rotation == 180)
                    {
                        vooruit();
-                       System.out.print("vooruit");
+                       System.out.println("vooruit");
                    }
                    else
                    {
                        turnright();
-                       System.out.print("turnright");
+                       System.out.println("turnright");
                    }
                }
            }
        }
-       System.out.print("bestemming bereikt " + " (" + x + "," + y + ")");
+       return "bestemming bereikt " + geefCoordinaten();
+   }
+   public String[] berekenRoute(int eindx, int eindy, int beginx, int beginy, int rotatie)
+   {
+       String[] route = new String[40];
+       int teller = 0;
+       int links = 0;
+       x = beginx;
+       y = beginy;
+       rotation = rotatie; 
+       if(eindx <= maxx && eindy <= maxy && eindx >= 0 && eindy >= 0)
+       {
+           ex = eindx;
+           ey = eindy;
+       }else{
+           return route;
+        }
+        if(beginx <= maxx && beginy <= maxy && beginx >= 0 && beginy >= 0)
+       {
+           x = beginx;
+           y = beginy;
+       }else{
+           return route;
+        }
+       while(ex != x)
+       {
+           if(x < ex)
+           {
+               if(rotation == 90)
+               {
+                   vooruit();
+                   route[teller] = "vooruit";
+                   teller ++;
+               }
+               if(rotation == 0)
+               {
+                   turnright();
+                   vooruit();
+                   route[teller] = "rechtsaf";
+                   teller ++;
+               }
+               if(rotation == 270)
+               {
+                   keren();
+                   vooruit();
+                   route[teller] = "keren";
+                   teller ++;
+               }
+               if(rotation == 180)
+               {
+                   turnleft();
+                   vooruit();
+                   route[teller] = "linksaf";
+                   teller ++;
+               }
+           }
+           else
+           {
+               if(x > ex)
+               {
+                   if(rotation == 270)
+               {
+                   vooruit();
+                   route[teller] = "vooruit";
+                   teller ++;
+               }
+               if(rotation == 0)
+               {
+                   turnright();
+                   vooruit();
+                   route[teller] = "linksaf";
+                   teller ++;
+               }
+               if(rotation == 90)
+               {
+                   keren();
+                   vooruit();
+                   route[teller] = "keren";
+                   teller ++;
+               }
+               if(rotation == 180)
+               {
+                   turnleft();
+                   vooruit();
+                   route[teller] = "rechtsaf";
+                   teller ++;
+               }
+               }
+           }
+       }
+       while(ey != y)
+       {
+           if(y < ey)
+           {
+               if(rotation == 0)
+               {
+                   vooruit();
+                   route[teller] = "vooruit";
+                   teller ++;
+               }
+               if(rotation == 270)
+               {
+                   turnright();
+                   vooruit();
+                   route[teller] = "rechtsaf";
+                   teller ++;
+               }
+               if(rotation == 180)
+               {
+                   keren();
+                   vooruit();
+                   route[teller] = "keren";
+                   teller ++;
+               }
+               if(rotation == 90)
+               {
+                   turnleft();
+                   vooruit();
+                   route[teller] = "linksaf";
+                   teller ++;
+               }
+           }
+           else
+           {
+               if(y > ey)
+               {
+                   if(rotation == 180)
+               {
+                   vooruit();
+                   route[teller] = "vooruit";
+                   teller ++;
+               }
+               if(rotation == 90)
+               {
+                   turnright();
+                   vooruit();
+                   route[teller] = "rechtsaf";
+                   teller ++;
+               }
+               if(rotation == 0)
+               {
+                   keren();
+                   vooruit();
+                   route[teller] = "keren";
+                   teller ++;
+               }
+               if(rotation == 270)
+               {
+                   turnleft();
+                   vooruit();
+                   route[teller] = "linksaf";
+                   teller ++;
+               }
+               }
+           }
+       }
+       System.out.println("bestemming bereikt " + geefCoordinaten());
+       return route;
    }
 }
