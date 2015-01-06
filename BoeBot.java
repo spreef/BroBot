@@ -7,7 +7,7 @@ public class BoeBot{
         FysiekeIndicator fysiekeindicator;
         Aansturing aansturing;
         Lijnvolger lijnvolger;
-        AfstandbedieningIr afir;
+
 
         char route[];
         static int currentCase = 4;
@@ -16,53 +16,41 @@ public class BoeBot{
         public BoeBot(){
                 motor = new MotorAansturing();
                 botsingdetectie = new Botsingdetectie();
-                fysiekeindicator = new FysiekeIndicator();
-                afir = new AfstandbedieningIr(motor);
-                aansturing = new Aansturing(5,4);
+                aansturing = new Aansturing(4,4);
                 lijnvolger = new Lijnvolger();
+                fysiekeindicator = new FysiekeIndicator();
 
                 motor.setSnelheid(100);
                 motor.setRichting(true);
-                motor.start();
-            route = aansturing.berekenRoute(4,3,0,0,90);
+                route = new char[]{'v','v','v','l','l','r','r','v','r','v', ' '};
+                for(int i = 0; i < route.length; i++){
+                 System.out.println(route[i]);
 
-
+                }
+                System.out.println("de huidige stappen:" );
                 //variabele om functies in en uit te schakelen.
                 boolean afstandsbediening = true;
                 boolean obstakelDetectie = false;
                 boolean routeplanner = true;
                 boolean sparcours = false;
 
+                boolean routeafgerond = true;
                 while(true){
                         if(obstakelDetectie){
                                 obstakelDetectie();
                         }
                         if(afstandsbediening){
-                                afstandsbediening();
                         }
                         if(routeplanner){
-                                routeplanner();
+                          if(routeafgerond){
+                               routeafgerond = routeplanner();
+                          }
                         }
                         if(sparcours){
 
                         }
                 }
         }
-
-        public void afstandsbediening(){
-                int getal = afir.detect(4);
-                if(getal == 21){
-                        afir.setStatus(!afir.getStatus());
-                }
-                if(afir.getStatus()){
-                        if(getal != -1){
-                                afir.verwerkSignaal(getal);
-                        }
-                        else{
-                        }
-                }
-        }
-
         public void obstakelDetectie(){
                 if(botsingdetectie.detectEdge()){
                         CPU.writePin(CPU.pin1,true);
@@ -104,8 +92,8 @@ public class BoeBot{
                 }
         }
 
-        public void routeplanner(){
-                if(currentStep == 0){
+        public boolean routeplanner(){
+               if(currentStep == 0){
                         verwerkAansturing(route[currentStep]);
                 }
                 int getalLijnvolger = lijnvolger.readSensor();
@@ -125,8 +113,8 @@ public class BoeBot{
                             motor.setRichting(true);
                             motor.rijden();
                             currentCase = 1;
-                    }
-                    break;
+                            }
+                            break;
                         case 2:
                                 if(currentCase != 2){
                                         motor.setSnelheidL(100);
@@ -139,36 +127,63 @@ public class BoeBot{
                         case 4:
                                 if(currentCase != 4){
                                         if(route[currentStep] != ' '){
+
                                                 verwerkAansturing(route[currentStep]);
-                                                System.out.println(route[currentStep]);
+                                                System.out.println(route[currentStep-1]);
+                                                CPU.delay(1000);
                                         }else{
                                                 motor.noodStop();
+                                                System.out.println("klaar");
+                                                return false;
                                         }
                                         currentCase = 4;
                                 }
                                 break;
-                        default:
+                        case 5:
+                              if(currentCase != 5){
                                 motor.noodStop();
+                                System.out.println("Gat!!");
+                                currentCase = 5;
+                                return false;
+
+
+                              }
+                        default:
+                               // motor.noodStop();
         }
+          return true;
         }
 
         public void verwerkAansturing(char opdracht){
                 switch(opdracht){
                 case 'v':
-                        break;
+                       motor.rijden();
+                       CPU.delay(200);
+                       break;
                 case 'a':
                         CPU.delay(1200);
             motor.noodStop();
+
+            CPU.delay(200);
             motor.turn(180);
             break;
                 case 'r':
+                      motor.setSnelheid(100);
+                      motor.setRichting(true);
+                      motor.rijden();
                         CPU.delay(1200);
             motor.noodStop();
+
+            CPU.delay(200);
             motor.turn(90);
             break;
                 case 'l':
+                    motor.setSnelheid(100);
+                      motor.setRichting(true);
+                      motor.rijden();
                         CPU.delay(1200);
             motor.noodStop();
+            CPU.delay(200);
             motor.turn(270);
             break;
                 default:
