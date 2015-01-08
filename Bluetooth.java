@@ -11,11 +11,10 @@ public class Bluetooth
 
   private char[] data = new char[40];
 
-  public char[] getRoute()
+  public void getRoute()
   {
     int adChar = 0;
     char endRoute = '?';
-    char[] route = new char[40];
 
     while (true)
     {
@@ -26,22 +25,35 @@ public class Bluetooth
 
         if (endRoute == temp)
         {
-          route = data;
+          returnRoute();
           break;
         }
 
         adChar ++;
+
+        if (adChar == 40)
+        {
+          System.out.println("De opgegeven route is te groot. Voer maximaal 40 route-aanwijzingen in.");
+          break;
+        }
       }
 
-      if (adChar == 40)
+      if (!rxUart.byteAvailable())
       {
-        System.out.println("De opgegeven route is te groot. Voer maximaal 40 route-aanwijzingen in.");
         break;
       }
 
       CPU.delay(100);
     }
+  }
 
-    return route;
+  private char[] returnRoute()
+  {
+    System.out.println("Array:");
+    System.out.println(data[0]);
+    System.out.println(data[1]);
+    System.out.println(data[2]);
+
+    return data;
   }
 }
