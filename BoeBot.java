@@ -7,6 +7,7 @@ public class BoeBot{
         FysiekeIndicator fysiekeindicator;
         Aansturing aansturing;
         Lijnvolger lijnvolger;
+		Bluetooth bluetooth;
 
 
         char route[];
@@ -19,6 +20,7 @@ public class BoeBot{
                 aansturing = new Aansturing(4,4);
                 lijnvolger = new Lijnvolger();
                 fysiekeindicator = new FysiekeIndicator();
+				bluetooth = new Bluetooth();
 
                 motor.setSnelheid(100);
                 motor.setRichting(true);
@@ -36,7 +38,9 @@ public class BoeBot{
 
                 boolean routeafgerond = true;
                 while(true){
-                        if(obstakelDetectie){
+                        bluetooth.getRoute();
+						
+						if(obstakelDetectie){
                                 obstakelDetectie();
                         }
                         if(afstandsbediening){
