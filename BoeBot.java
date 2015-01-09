@@ -7,52 +7,59 @@ public class BoeBot{
         FysiekeIndicator fysiekeindicator;
         Aansturing aansturing;
         Lijnvolger lijnvolger;
-		Bluetooth bluetooth;
+        Bluetooth bluetooth;
+        Afstandsbediening afstandsbedieningir;
 
+        boolean routeAfgerond;
 
-        char route[];
+        char[] route;
         static int currentCase = 4;
         static int currentStep = 0;
 
         public BoeBot(){
                 motor = new MotorAansturing();
-                botsingdetectie = new Botsingdetectie();
+                afstandsbedieningir = new Afstandsbediening(motor);
+                //botsingdetectie = new Botsingdetectie();
                 aansturing = new Aansturing(4,4);
                 lijnvolger = new Lijnvolger();
-                fysiekeindicator = new FysiekeIndicator();
-				bluetooth = new Bluetooth();
+                bluetooth = new Bluetooth();
 
                 motor.setSnelheid(100);
                 motor.setRichting(true);
-                route = new char[]{'v','v','v','l','l','r','r','v','r','v', ' '};
-                for(int i = 0; i < route.length; i++){
-                 System.out.println(route[i]);
+                routeAfgerond = false;
 
-                }
                 System.out.println("de huidige stappen:" );
                 //variabele om functies in en uit te schakelen.
                 boolean afstandsbediening = true;
                 boolean obstakelDetectie = false;
                 boolean routeplanner = true;
                 boolean sparcours = false;
-
-                boolean routeafgerond = true;
+                int btcode = 0;
                 while(true){
-                        bluetooth.getRoute();
-						
-						if(obstakelDetectie){
+                        btcode = bluetooth.checkBt();
+                        if(btcode == 2){
+                          System.out.println("Route ontvangen!");
+                          route = bluetooth.getRoute();
+                          routeAfgerond = true;
+                          currentStep = 0;
+                          System.out.println(route[3]);
+                        }else if(btcode == 1){
+                          afstandsbedieningir.verwerkSignaal(bluetooth.getAfstandsbediening());
+                        }
+                        if(obstakelDetectie){
                                 obstakelDetectie();
                         }
                         if(afstandsbediening){
                         }
                         if(routeplanner){
-                          if(routeafgerond){
-                               routeafgerond = routeplanner();
+                          if(routeAfgerond){
+                               routeAfgerond = routeplanner();
                           }
                         }
                         if(sparcours){
 
                         }
+                        CPU.delay(100);
                 }
         }
         public void obstakelDetectie(){
@@ -131,10 +138,10 @@ public class BoeBot{
                         case 4:
                                 if(currentCase != 4){
                                         if(route[currentStep] != ' '){
-
                                                 verwerkAansturing(route[currentStep]);
                                                 System.out.println(route[currentStep-1]);
                                                 CPU.delay(1000);
+                                                motor.rijden();
                                         }else{
                                                 motor.noodStop();
                                                 System.out.println("klaar");
@@ -146,11 +153,16 @@ public class BoeBot{
                         case 5:
                               if(currentCase != 5){
                                 motor.noodStop();
+                                motor.setSnelheid(30);
                                 System.out.println("Gat!!");
                                 currentCase = 5;
+                                CPU.delay(1000);
+                                motor.setRichting(false);
+                                motor.rijden();
+                                CPU.delay(3000);
+                                motor.noodStop();
                                 return false;
-
-
+                               // route = ontwijkBoebot(int xx, int xy, int x, int y, int rotation)
                               }
                         default:
                                // motor.noodStop();
