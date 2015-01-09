@@ -1,6 +1,8 @@
 package panels;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,17 +10,17 @@ import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.JTextField;
 
 import customComponents.ComWriter;
 
 public class AfstandbedieningPanel extends JPanel {
 
 	private JSlider slider;
-	private JLabel current;
+	private JTextField current;
 	private JPanel richtingPanel;
 	private ComWriter bluetooth;
 	
@@ -38,43 +40,48 @@ public class AfstandbedieningPanel extends JPanel {
 		char[]characters = {'v','l','s','r','a'};
 		
 		makeRichtingPanel(array, characters, plaatjes);
-		
-		
 
 			
 		
 		JPanel sliderPanel = new JPanel();
+		sliderPanel.setBackground(Color.GRAY);
 		add(sliderPanel);
 		
 		slider = new JSlider(0,100,50);
 		slider.setPaintLabels(true);
 		slider.setPaintTicks(true);
 		slider.setMajorTickSpacing(10);
+		slider.setBackground(Color.GRAY);
 		sliderPanel.add(slider);
 		
-		current = new JLabel();
-		current.setText(getCurrentSlider()+"");
+		
+		
 		
 
-		JPanel buttonPanel = new JPanel(new GridLayout(1,4));
+		JPanel buttonPanel = new JPanel(new FlowLayout());
+		buttonPanel.setBackground(Color.GRAY);
 		add(buttonPanel);
 		
-		JButton closeButton = new JButton("Close");
+		JLabel currentLabel = new JLabel("Huidige Snelheid: ");	
+		buttonPanel.add(currentLabel);
 		
-		buttonPanel.add(closeButton);
+		current = new JTextField(2);
+		current.setText(""+slider.getValue());
+		current.setEnabled(false);
+		buttonPanel.add(current);
+		
+		
 		
 		JButton toevoegen = new JButton("zet snelheid");
 		toevoegen.addActionListener(new ActionListener(){
-
-			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(getCurrentSlider());
-				
-				
+				String st = verzendSnelheid(slider.getValue());
+				bluetooth.writeString(st);
 			}
 			
 		});
 		buttonPanel.add(toevoegen);		
+		
 	}
 	
 	public void setCurrentSlider(int waarde){
@@ -90,7 +97,7 @@ public class AfstandbedieningPanel extends JPanel {
 		ImageIcon[]plaatjes = new ImageIcon[naam.length];
 		
 		for(int n = 0; n < plaatjes.length; n++){
-			plaatjes[n] = new ImageIcon("src/pictures/"+naam[n]+".png");
+			plaatjes[n] = new ImageIcon("pictures/"+naam[n]+".png");
 		}
 		
 		return plaatjes;
@@ -133,7 +140,21 @@ public class AfstandbedieningPanel extends JPanel {
 		}
 		
 	}
+	
+	public String verzendSnelheid(int snelheid){
+		String st = ""+snelheid;
+		current.setText(st);
+		st="f"+snelheid;
+		return st;
+	}
 }
+	
+	
+	
+	
+
+
+
 	
 	
 	
